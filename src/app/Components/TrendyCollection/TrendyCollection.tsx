@@ -1,11 +1,28 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FaEye, FaHeart, FaStar } from "react-icons/fa";
 import { FaRightLeft } from "react-icons/fa6";
 
+interface Product {
+  id: number;
+  name: string;
+  base?: string;
+  price: string;
+  salePrice?: string;
+  rating: number;
+  image: string;
+  isOnSale: boolean;
+  sizes?: string[];
+  description?: string[];
+}
+
 const products = [
   {
-    name: "Deep Leather Blouse",
+    id: 1,
+    name: "Blouse 1",
     base: "Women's Collection",
     price: "$280.00",
     salePrice: "On sale from $280.00",
@@ -15,7 +32,8 @@ const products = [
     isOnSale: true,
   },
   {
-    name: "Deep Leather Blouse",
+    id: 2,
+    name: "Blouse 2",
     base: "Summer Collection",
     price: "$305.00",
     rating: 4,
@@ -24,7 +42,8 @@ const products = [
     isOnSale: false,
   },
   {
-    name: "Deep Leather Blouse",
+    id: 3,
+    name: "Blouse 3",
     base: "Leather Collection",
     price: "$305.00",
     rating: 3.5,
@@ -33,7 +52,8 @@ const products = [
     isOnSale: false,
   },
   {
-    name: "Lila LS Blouse",
+    id: 4,
+    name: "Blouse 4",
     base: "Exclusive Collection",
     price: "$89.00",
     rating: 5,
@@ -44,6 +64,41 @@ const products = [
 ];
 
 const TrendyCollection = () => {
+  const router = useRouter();
+
+  // Handle Add to Cart
+  // const addToCart = (productId: number) => {
+  //   try {
+  //     // Get existing cart items from localStorage
+  //     const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  //     // Add new product ID if it's not already in the cart
+  //     if (!cartItems.includes(productId)) {
+  //       cartItems.push(productId);
+  //     }
+
+  //     // Save updated cart back to localStorage
+  //     localStorage.setItem("cart", JSON.stringify(cartItems));
+
+  //     // Redirect to Cart Page
+  //     router.push("/cart");
+  //   } catch (error) {
+  //     console.error("Error adding to cart:", error);
+  //   }
+  // };
+  const goToProductDetails = (product: Product) => {
+    const query = new URLSearchParams({
+      id: product.id.toString(),
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      sizes: JSON.stringify(product.sizes || ["L", "M", "XL"]), // Handle undefined sizes
+      description: JSON.stringify(product.description || []),
+    }).toString();
+
+    router.push(`/singleProduct/${product.id}?${query}`);
+  };
+
   return (
     <section className="md:py-16 px-4">
       <div className="max-w-7xl mx-auto text-center">
@@ -54,14 +109,20 @@ const TrendyCollection = () => {
           Discover the latest ready-to-wear dresses.
         </p>
         <div className="grid justify-end pr-5 text-xl font-semibold">
-          <button className="">View More</button>
+          <button className="text-blue-600 hover:underline">View More</button>
         </div>
+
+        {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product, index) => (
-            <div key={index} className="group relative p-4 bg-white rounded-md">
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="group relative p-4 bg-white rounded-md"
+            >
               <div className="relative overflow-hidden">
                 {/* Black overlay with opacity */}
                 <div className="absolute top-0 left-0 w-full h-full bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-300 z-10"></div>
+
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -69,11 +130,13 @@ const TrendyCollection = () => {
                   width={500}
                   height={750}
                 />
+
                 {product.isOnSale && (
                   <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded z-20">
                     Sale -8%
                   </span>
                 )}
+
                 {/* Social Media Icons */}
                 <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
                   <Link href="https://facebook.com">
@@ -87,33 +150,39 @@ const TrendyCollection = () => {
                   </Link>
                 </div>
               </div>
+
               <div className="mt-4 text-center">
                 <h4 className="text-sm text-gray-500 font-medium">
                   {product.base}
                 </h4>
                 <h3 className="text-lg font-semibold">{product.name}</h3>
+
+                {/* Star Ratings */}
                 <div className="flex justify-center items-center mt-2">
-                  {Array(5)
-                    .fill(0)
-                    .map((_, i) => (
-                      <FaStar
-                        key={i}
-                        className={`w-4 h-4 ${
-                          i < Math.round(product.rating)
-                            ? "text-yellow-500"
-                            : "text-gray-300"
-                        }`}
-                      />
-                    ))}
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <FaStar
+                      key={i}
+                      className={`w-4 h-4 ${
+                        i < Math.round(product.rating)
+                          ? "text-yellow-500"
+                          : "text-gray-300"
+                      }`}
+                    />
+                  ))}
                 </div>
+
                 <p className="text-gray-500 text-sm mt-2">
                   {product.isOnSale ? product.salePrice : product.price}
                 </p>
               </div>
+
               {/* Add to Cart Button */}
               <div className="absolute bottom-40 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                <button className="w-[80%] bg-white text-black px-6 py-2 text-sm font-semibold border-t border-gray-200">
-                  Add to Cart
+                <button
+                  onClick={() => goToProductDetails(product)}
+                  className="w-[80%] bg-white text-black px-6 py-2 text-sm font-semibold border-t border-gray-200"
+                >
+                  Buy Now
                 </button>
               </div>
             </div>

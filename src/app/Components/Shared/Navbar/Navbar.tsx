@@ -1,14 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  FaSearch,
-  FaHeart,
-  FaShoppingCart,
-  FaBars,
-  FaTimes,
-} from "react-icons/fa";
-import { FaPerson } from "react-icons/fa6";
+import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 
 // Define the type for dropdownOpen state
 type DropdownState = {
@@ -17,6 +11,26 @@ type DropdownState = {
 };
 
 const Navbar = () => {
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    // Function to update cart count
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      setCartCount(cart.length);
+    };
+
+    // Run on mount
+    updateCartCount();
+
+    // Listen for storage changes (when an item is added from another component)
+    window.addEventListener("storage", updateCartCount);
+
+    // Cleanup event listener
+    return () => {
+      window.removeEventListener("storage", updateCartCount);
+    };
+  }, []);
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<DropdownState>({
     shop: false,
@@ -55,209 +69,7 @@ const Navbar = () => {
             className="relative"
             onMouseEnter={() => handleDropdownEnter("shop")}
             onMouseLeave={() => handleDropdownLeave("shop")}
-          >
-            <div className="hover:text-gray-400 py-2 cursor-pointer">Shop</div>
-            {dropdownOpen.shop && (
-              <div className="absolute bg-white text-black w-screen mt-2 shadow-lg z-50 p-5 grid grid-cols-3 gap-5 -left-[83px] top-12">
-                <div>
-                  <h4 className="font-bold mb-2">Layout</h4>
-                  <ul className="space-y-1">
-                    <li>
-                      <Link href="/shop/filter-vertical">
-                        1 - Filter Vertical
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/filter-top">2 - Filter Top</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/filter-drawer-right">
-                        3 - Filter Drawer Right
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/filter-drawer-left">
-                        4 - Filter Drawer Left
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/filter-collapse-right">
-                        5 - Filter Collapse Right
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/filter-collapse-left">
-                        6 - Filter Collapse Left
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/grid-2-columns">Grid - 2 Columns</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/grid-3-columns">Grid - 3 Columns</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/grid-4-columns">Grid - 4 Columns</Link>
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-bold mb-2">Features</h4>
-                  <ul className="space-y-1">
-                    <li>
-                      <Link href="/shop/without-filter">Without Filter</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/banner-image">Banner Image</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/banner-no-image">Banner No Image</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/banner-split">Banner Split</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/collection-list">Collection List</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/pagination">Pagination</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/infinity">Infinity</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/load-more">Load More</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/list-color">List Color</Link>
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-bold mb-2">Hover Style</h4>
-                  <ul className="space-y-1">
-                    {[...Array(12)].map((_, i) => (
-                      <li key={i}>
-                        <Link href={`/shop/hover-style-${i + 1}`}>
-                          Hover Style {i + 1}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Pages Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => handleDropdownEnter("pages")}
-            onMouseLeave={() => handleDropdownLeave("pages")}
-          >
-            <div className="hover:text-gray-400 py-2 cursor-pointer">Pages</div>
-            {dropdownOpen.pages && (
-              <div className="absolute bg-white text-black w-screen mt-2 shadow-lg z-50 p-5 grid grid-cols-3 gap-5 -left-[139px] top-12">
-                <div>
-                  <h4 className="font-bold mb-2">Layout</h4>
-                  <ul className="space-y-1">
-                    <li>
-                      <Link href="/shop/filter-vertical">
-                        1 - Filter Vertical
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/filter-top">2 - Filter Top</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/filter-drawer-right">
-                        3 - Filter Drawer Right
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/filter-drawer-left">
-                        4 - Filter Drawer Left
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/filter-collapse-right">
-                        5 - Filter Collapse Right
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/filter-collapse-left">
-                        6 - Filter Collapse Left
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/grid-2-columns">Grid - 2 Columns</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/grid-3-columns">Grid - 3 Columns</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/grid-4-columns">Grid - 4 Columns</Link>
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-bold mb-2">Features</h4>
-                  <ul className="space-y-1">
-                    <li>
-                      <Link href="/shop/without-filter">Without Filter</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/banner-image">Banner Image</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/banner-no-image">Banner No Image</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/banner-split">Banner Split</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/collection-list">Collection List</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/pagination">Pagination</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/infinity">Infinity</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/load-more">Load More</Link>
-                    </li>
-                    <li>
-                      <Link href="/shop/list-color">List Color</Link>
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-bold mb-2">Hover Style</h4>
-                  <ul className="space-y-1">
-                    {[...Array(12)].map((_, i) => (
-                      <li key={i}>
-                        <Link href={`/shop/hover-style-${i + 1}`}>
-                          Hover Style {i + 1}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <Link href="/product" className="hover:text-gray-400 py-2">
-            Product
-          </Link>
-          <Link href="/blog" className="hover:text-gray-400 py-2">
-            Blog
-          </Link>
+          ></div>
         </div>
 
         {/* Center - Company Name */}
@@ -284,13 +96,14 @@ const Navbar = () => {
 
         {/* Right Side Icons */}
         <div className="flex items-center space-x-4">
-          <Link href={``}>
-            <FaSearch className="text-xl hover:text-gray-400 cursor-pointer" />
-          </Link>
-          <FaPerson className="text-xl hover:text-gray-400 cursor-pointer" />
-          <FaHeart className="text-xl hover:text-gray-400 cursor-pointer" />
-          <FaShoppingCart className="text-xl hover:text-gray-400 cursor-pointer" />
-          <FaBars className="text-xl hover:text-gray-400 cursor-pointer hidden md:block" />
+          <Link href="/cart" className="relative">
+            <FaShoppingCart className="text-4xl hover:text-gray-400 cursor-pointer" />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                {cartCount}
+              </span>
+            )}
+          </Link>{" "}
         </div>
       </div>
 

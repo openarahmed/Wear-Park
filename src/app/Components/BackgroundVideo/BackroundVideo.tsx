@@ -9,14 +9,14 @@ const BackgroundVideo = () => {
           position: "relative",
           width: "100%",
           height: "100%",
-          paddingBottom: "52.854%",
+          paddingBottom: "56.250%",
         }}
       >
         <iframe
           allow="fullscreen; autoplay"
           allowFullScreen
           height="100%"
-          src="https://streamable.com/e/7uu58y?autoplay=1&muted=1&nocontrols=1"
+          src="https://streamable.com/e/ibifh3?autoplay=1&muted=1&nocontrols=1"
           width="100%"
           style={{
             border: "none",
