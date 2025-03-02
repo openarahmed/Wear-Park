@@ -1,13 +1,10 @@
+import Link from "next/link";
 import React from "react";
 import {
   FaFacebookF,
   FaPinterestP,
   FaInstagram,
   FaTiktok,
-  FaCcVisa,
-  FaCcMastercard,
-  FaCcAmex,
-  FaCcDiscover,
 } from "react-icons/fa";
 
 const Footer = () => {
@@ -100,10 +97,18 @@ const Footer = () => {
 
           {/* Payment Icons */}
           <div className="flex space-x-4 text-2xl">
-            <FaCcVisa className="text-black hover:text-gray-700" />
-            <FaCcMastercard className="text-black hover:text-gray-700" />
-            <FaCcAmex className="text-black hover:text-gray-700" />
-            <FaCcDiscover className="text-black hover:text-gray-700" />
+            <h1 className="text-sm">
+              Designed & Developed By{" "}
+              <span className="text-sm text-blue-700">
+                <Link
+                  href="https://codermat.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Codermat
+                </Link>
+              </span>
+            </h1>
           </div>
         </div>
       </div>
