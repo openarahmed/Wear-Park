@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
@@ -83,11 +84,13 @@ const HeroSlider = () => {
               {slide.title}
             </h1>
             <p className="mt-2 text-lg">{slide.description}</p>
-            <div className="pt-8 ">
-              <button className="bg-white text-black p-3 font-semibold">
-                {slide.button}
-              </button>
-            </div>
+            <Link href="/allProducts">
+              <div className="pt-8 ">
+                <button className="bg-white text-black p-3 font-semibold">
+                  {slide.button}
+                </button>
+              </div>
+            </Link>
           </div>
         </div>
       ))}
