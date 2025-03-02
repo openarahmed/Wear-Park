@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "name": "Winter Coat",
+    "base": "Winter Collection",
+    "price": "500.00",
+    "rating": 4.8,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Coats"
+  },
+  {
+    "id": 2,
+    "name": "Men's Winter Jacket",
+    "base": "Winter Collection",
+    "price": "450.00",
+    "rating": 4.7,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Coats"
+  },
+  {
+    "id": 3,
+    "name": "Cozy Winter Coat",
+    "base": "Winter Collection",
+    "price": "550.00",
+    "rating": 4.9,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Coats"
+  },
+  {
+    "id": 4,
+    "name": "Fleece Lined Coat",
+    "base": "Winter Collection",
+    "price": "420.00",
+    "rating": 4.5,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Coats"
+  },
+  {
+    "id": 5,
+    "name": "Leather Winter Coat",
+    "base": "Winter Collection",
+    "price": "600.00",
+    "rating": 4.6,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Coats"
+  },
+  {
+    "id": 6,
+    "name": "Baby Jeans",
+    "base": "Baby Essentials",
+    "price": "30.00",
+    "rating": 4.5,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Jeans"
+  },
+  {
+    "id": 7,
+    "name": "Toddler Jeans",
+    "base": "Baby Essentials",
+    "price": "28.00",
+    "rating": 4.3,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Jeans"
+  },
+  {
+    "id": 8,
+    "name": "Kids Skinny Jeans",
+    "base": "Children's Wear",
+    "price": "35.00",
+    "rating": 4.6,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Jeans"
+  },
+  {
+    "id": 9,
+    "name": "Boys' Denim Jeans",
+    "base": "Boys Wear",
+    "price": "38.00",
+    "rating": 4.4,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Jeans"
+  },
+  {
+    "id": 10,
+    "name": "Baby Boy Jeans",
+    "base": "Baby Essentials",
+    "price": "32.00",
+    "rating": 4.7,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Jeans"
+  },
+  {
+    "id": 11,
+    "name": "Navy Slub Tee",
+    "base": "Casual Wear",
+    "price": "20.00",
+    "rating": 4.2,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Tees"
+  },
+  {
+    "id": 12,
+    "name": "White Cotton Tee",
+    "base": "Casual Wear",
+    "price": "18.00",
+    "rating": 4.3,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Tees"
+  },
+  {
+    "id": 13,
+    "name": "Graphic Tee",
+    "base": "Casual Wear",
+    "price": "25.00",
+    "rating": 4.5,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Tees"
+  },
+  {
+    "id": 14,
+    "name": "Red Casual Tee",
+    "base": "Casual Wear",
+    "price": "22.00",
+    "rating": 4.4,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Tees"
+  },
+  {
+    "id": 15,
+    "name": "Black Polo Tee",
+    "base": "Casual Wear",
+    "price": "30.00",
+    "rating": 4.7,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Tees"
+  },
+  {
+    "id": 16,
+    "name": "V-Neck Knit Sweater",
+    "base": "Winter Knitwear",
+    "price": "60.00",
+    "rating": 4.9,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Knits"
+  },
+  {
+    "id": 17,
+    "name": "Cashmere Knit Sweater",
+    "base": "Winter Knitwear",
+    "price": "100.00",
+    "rating": 5.0,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Knits"
+  },
+  {
+    "id": 18,
+    "name": "Merino Wool Knit",
+    "base": "Winter Knitwear",
+    "price": "85.00",
+    "rating": 4.8,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Knits"
+  },
+  {
+    "id": 19,
+    "name": "Ribbed Knit Sweater",
+    "base": "Winter Knitwear",
+    "price": "75.00",
+    "rating": 4.6,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Knits"
+  },
+  {
+    "id": 20,
+    "name": "Chunky Knit Sweater",
+    "base": "Winter Knitwear",
+    "price": "90.00",
+    "rating": 4.7,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Knits"
+  },
+  {
+    "id": 21,
+    "name": "Men's Party Blazer",
+    "base": "Formal Wear",
+    "price": "150.00",
+    "rating": 4.7,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Blazers"
+  },
+  {
+    "id": 22,
+    "name": "Slim Fit Blazer",
+    "base": "Formal Wear",
+    "price": "180.00",
+    "rating": 4.9,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Blazers"
+  },
+  {
+    "id": 23,
+    "name": "Black Satin Blazer",
+    "base": "Formal Wear",
+    "price": "200.00",
+    "rating": 4.6,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Blazers"
+  },
+  {
+    "id": 24,
+    "name": "Navy Velvet Blazer",
+    "base": "Formal Wear",
+    "price": "210.00",
+    "rating": 4.8,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Blazers"
+  },
+  {
+    "id": 25,
+    "name": "Double-Breasted Blazer",
+    "base": "Formal Wear",
+    "price": "250.00",
+    "rating": 5.0,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Blazers"
+  },
+  {
+    "id": 26,
+    "name": "Work Blouse",
+    "base": "Office Wear",
+    "price": "40.00",
+    "rating": 4.3,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Blouses"
+  },
+  {
+    "id": 27,
+    "name": "Chiffon Blouse",
+    "base": "Office Wear",
+    "price": "45.00",
+    "rating": 4.5,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Blouses"
+  },
+  {
+    "id": 28,
+    "name": "Cotton Work Blouse",
+    "base": "Office Wear",
+    "price": "38.00",
+    "rating": 4.7,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Blouses"
+  },
+  {
+    "id": 29,
+    "name": "Linen Blouse",
+    "base": "Office Wear",
+    "price": "50.00",
+    "rating": 4.6,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": false,
+    "category": "Blouses"
+  },
+  {
+    "id": 30,
+    "name": "Silk Work Blouse",
+    "base": "Office Wear",
+    "price": "60.00",
+    "rating": 4.9,
+    "image": "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
+    "isOnSale": true,
+    "category": "Blouses"
+  }
+]

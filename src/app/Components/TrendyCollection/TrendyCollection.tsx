@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FaEye, FaHeart, FaStar } from "react-icons/fa";
 import { FaRightLeft } from "react-icons/fa6";
 
@@ -19,80 +20,32 @@ interface Product {
   description?: string[];
 }
 
-const products = [
-  {
-    id: 1,
-    name: "Blouse 1",
-    base: "Women's Collection",
-    price: "$280.00",
-    salePrice: "On sale from $280.00",
-    rating: 4.5,
-    image:
-      "https://oval-square.com/cdn/shop/files/20389-7016_13_800x.jpg?v=1723646356",
-    isOnSale: true,
-  },
-  {
-    id: 2,
-    name: "Blouse 2",
-    base: "Summer Collection",
-    price: "$305.00",
-    rating: 4,
-    image:
-      "https://oval-square.com/cdn/shop/files/20389-6009_13_1600x.jpg?v=1723646324",
-    isOnSale: false,
-  },
-  {
-    id: 3,
-    name: "Blouse 3",
-    base: "Leather Collection",
-    price: "$305.00",
-    rating: 3.5,
-    image:
-      "https://oval-square.com/cdn/shop/files/20389-6009_15_800x.jpg?v=1723646324",
-    isOnSale: false,
-  },
-  {
-    id: 4,
-    name: "Blouse 4",
-    base: "Exclusive Collection",
-    price: "$89.00",
-    rating: 5,
-    image:
-      "https://cdhstudio.com/cdn/shop/files/22_cd653f6a-fb42-4cd5-adf0-0ff5f8a402ff.webp?v=1723535950&width=1200",
-    isOnSale: false,
-  },
-];
-
 const TrendyCollection = () => {
+  const [products, setProducts] = useState<Product[]>([]);
   const router = useRouter();
 
-  // Handle Add to Cart
-  // const addToCart = (productId: number) => {
-  //   try {
-  //     // Get existing cart items from localStorage
-  //     const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+  // UseEffect to ensure the client-side fetching happens after mounting
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("/products.json");
+        const data = await res.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
 
-  //     // Add new product ID if it's not already in the cart
-  //     if (!cartItems.includes(productId)) {
-  //       cartItems.push(productId);
-  //     }
+    fetchProducts();
+  }, []); // Empty dependency array ensures this runs once when the component mounts
 
-  //     // Save updated cart back to localStorage
-  //     localStorage.setItem("cart", JSON.stringify(cartItems));
-
-  //     // Redirect to Cart Page
-  //     router.push("/cart");
-  //   } catch (error) {
-  //     console.error("Error adding to cart:", error);
-  //   }
-  // };
   const goToProductDetails = (product: Product) => {
     const query = new URLSearchParams({
       id: product.id.toString(),
       name: product.name,
       price: product.price,
       image: product.image,
-      sizes: JSON.stringify(product.sizes || ["L", "M", "XL"]), // Handle undefined sizes
+      sizes: JSON.stringify(product.sizes || ["L", "M", "XL"]),
       description: JSON.stringify(product.description || []),
     }).toString();
 
@@ -103,24 +56,28 @@ const TrendyCollection = () => {
     <section className="md:py-16 px-4">
       <div className="max-w-7xl mx-auto text-center">
         <h2 className="text-2xl md:text-4xl font-bold mb-4 text-start">
-          TRENDY COLLECTION
+          Choose Your Products
         </h2>
         <p className="text-gray-600 mb-8 text-start">
           Discover the latest ready-to-wear dresses.
         </p>
         <div className="grid justify-end pr-5 text-xl font-semibold">
-          <button className="text-blue-600 hover:underline">View More</button>
+          <button
+            className="text-blue-600 hover:underline"
+            onClick={() => router.push("/allProducts")}
+          >
+            View More
+          </button>
         </div>
 
-        {/* Product Grid */}
+        {/* Product Grid (Show only first 8 products) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {products.slice(0, 8).map((product) => (
             <div
               key={product.id}
               className="group relative p-4 bg-white rounded-md"
             >
               <div className="relative overflow-hidden">
-                {/* Black overlay with opacity */}
                 <div className="absolute top-0 left-0 w-full h-full bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-300 z-10"></div>
 
                 <Image
@@ -137,7 +94,6 @@ const TrendyCollection = () => {
                   </span>
                 )}
 
-                {/* Social Media Icons */}
                 <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
                   <Link href="https://facebook.com">
                     <FaHeart className="w-5 h-5 text-white" />
@@ -157,7 +113,6 @@ const TrendyCollection = () => {
                 </h4>
                 <h3 className="text-lg font-semibold">{product.name}</h3>
 
-                {/* Star Ratings */}
                 <div className="flex justify-center items-center mt-2">
                   {Array.from({ length: 5 }, (_, i) => (
                     <FaStar
@@ -176,7 +131,6 @@ const TrendyCollection = () => {
                 </p>
               </div>
 
-              {/* Add to Cart Button */}
               <div className="absolute bottom-40 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
                 <button
                   onClick={() => goToProductDetails(product)}

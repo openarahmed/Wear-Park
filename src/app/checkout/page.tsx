@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
@@ -22,9 +24,27 @@ const Checkout = () => {
   });
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("checkoutData") || "{}");
-    if (storedData.cartItems) {
-      setCheckoutData(storedData);
+    const storedData = localStorage.getItem("checkoutData");
+    if (storedData) {
+      try {
+        const parsedData = JSON.parse(storedData);
+        console.log("Loaded Checkout Data:", parsedData);
+
+        if (parsedData && Array.isArray(parsedData.cartItems)) {
+          setCheckoutData({
+            cartItems: parsedData.cartItems.map(
+              (item: { price: any; quantity: any }) => ({
+                ...item,
+                price: Number(item.price) || 0, // Ensure price is a valid number
+                quantity: Number(item.quantity) || 1,
+              })
+            ),
+            shippingCost: Number(parsedData.shippingCost) || 120,
+          });
+        }
+      } catch (error) {
+        console.error("Error parsing checkout data:", error);
+      }
     }
   }, []);
 
@@ -32,94 +52,89 @@ const Checkout = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+
   const total = subtotal + checkoutData.shippingCost;
 
   return (
-    <div className="p-10 grid grid-cols-2 gap-20">
-      {/* Billing Section */}
-      <div className="w-full">
-        <h1 className="text-xl font-semibold mb-4">Billing & Shipping</h1>
-        <form className="space-y-3">
+    <div className="p-10 grid grid-cols-1 md:grid-cols-2 gap-12 bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md">
+        <h1 className="text-2xl font-semibold mb-6">Billing & Shipping</h1>
+        <form className="space-y-5">
           <label className="block">
             আপনার নাম *
             <input
               type="text"
               placeholder="আপনার নাম লিখুন"
-              className="w-full border p-2 mt-1"
+              className="w-full border rounded-lg p-3 mt-2"
             />
           </label>
           <label className="block">
-            আপনার সম্পূর্ণ ঠিকানা *
+            আপনার ঠিকানা *
             <input
               type="text"
-              placeholder="রোড নাম্বার, বাসা নাম্বার, সহ সম্পূর্ণ ঠিকানা"
-              className="w-full border p-2 mt-1"
+              placeholder="আপনার ঠিকানা লিখুন"
+              className="w-full border rounded-lg p-3 mt-2"
             />
           </label>
           <label className="block">
-            আপনার মোবাইল নাম্বার *
+            আপনার মোবাইল *
             <input
               type="text"
-              placeholder="01XXXXXXXXX"
-              className="w-full border p-2 mt-1"
+              placeholder="আপনার মোবাইল নাম্বার লিখুন"
+              className="w-full border rounded-lg p-3 mt-2"
             />
           </label>
         </form>
       </div>
 
-      {/* Order Summary Section */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Your Order</h2>
-        <div className="p-5 border rounded-lg shadow-md bg-white">
-          {checkoutData.cartItems.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center gap-4 py-4 border-b"
-            >
-              <Image
-                src={item.image}
-                alt={item.name}
-                width={60}
-                height={60}
-                className="rounded-md"
-              />
-              <div className="flex-1">
-                <p className="font-semibold">{item.name}</p>
-                <p className="text-sm text-gray-600">Size: {item.size}</p>
-                <p className="text-sm">
-                  Quantity: <strong>{item.quantity}</strong>
-                </p>
-                <p className="text-sm">
-                  Price: <strong>{item.price}৳</strong>
-                </p>
+      <div className="bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold mb-6">Your Order</h2>
+        <div className="space-y-5">
+          {checkoutData.cartItems.length > 0 ? (
+            checkoutData.cartItems.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center gap-6 p-4 border-b"
+              >
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={80}
+                  height={80}
+                  className="rounded-lg"
+                />
+                <div>
+                  <p className="font-semibold text-lg">{item.name}</p>
+                  <p className="text-sm">Size: {item.size}</p>
+                  <p className="text-sm">Quantity: {item.quantity}</p>
+                  <p className="text-sm font-semibold">Price: {item.price}৳</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-center text-gray-600">No items in checkout</p>
+          )}
+        </div>
 
-          <div className="mt-4 space-y-2">
-            <div className="flex justify-between font-medium">
-              <span>Subtotal:</span>
-              <span>{subtotal}৳</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Shipping:</span>
-              <span>{checkoutData.shippingCost}৳</span>
-            </div>
-            <div className="flex justify-between text-lg font-bold border-t pt-2">
-              <span>Total:</span>
-              <span>{total}৳</span>
+        <div className="mt-6 border-t pt-4">
+          <p className="flex justify-between font-semibold text-lg">
+            Subtotal: <span>{subtotal}৳</span>
+          </p>
+          <p className="flex justify-between font-semibold text-lg">
+            Shipping: <span>{checkoutData.shippingCost}৳</span>
+          </p>
+          <p className="flex justify-between font-bold text-xl mt-3">
+            Total: <span>{total}৳</span>
+          </p>
+          <div className="bg-blue-50 p-4 mt-10 rounded-md">
+            <p className="text-gray-700 font-medium">Cash on delivery</p>
+            <div className="bg-blue-100 p-3 rounded-md mt-2">
+              <p className="text-gray-700">Pay with cash upon delivery.</p>
             </div>
           </div>
         </div>
 
-        {/* Payment Option */}
-        <div className="mt-5 p-4 border bg-gray-100 rounded-md">
-          <p className="font-medium">Payment Method</p>
-          <p className="text-sm text-gray-600">Cash on Delivery</p>
-        </div>
-
-        {/* Place Order Button */}
-        <button className="w-full mt-4 bg-black text-white py-3 text-lg font-semibold rounded-md">
+        <button className="w-full bg-black text-white font-semibold py-3 rounded-lg mt-6">
           Place Order
         </button>
       </div>

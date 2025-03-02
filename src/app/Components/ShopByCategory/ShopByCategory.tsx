@@ -50,7 +50,7 @@ const ShopByCategory = () => {
         </p>
         <div className="flex justify-between items-center gap-6">
           {categories.map((category, index) => (
-            <Link key={index} href={`#${category.name}`}>
+            <Link key={index} href={`/${category.name.toLowerCase()}`}>
               <div className="text-center group">
                 <div className="overflow-hidden">
                   <Image
@@ -64,9 +64,6 @@ const ShopByCategory = () => {
                 <h3 className="text-sm md:text-lg font-semibold">
                   {category.name}
                 </h3>
-                <p className="text-gray-500 text-[10px] md:text-sm">
-                  {category.items} Item{category.items > 1 ? "s" : ""}
-                </p>
               </div>
             </Link>
           ))}

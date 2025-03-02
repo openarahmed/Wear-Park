@@ -17,15 +17,15 @@ export default function Home() {
       <HeroSlider></HeroSlider>
       <ShopByCategory></ShopByCategory>
       <FeatureSection></FeatureSection>
+      <Carousel></Carousel>
       <TrendyCollection></TrendyCollection>
       <TheBrand></TheBrand>
-      <Carousel></Carousel>
-      <BestOfCollaborations></BestOfCollaborations>
-      <BackgroundVideo></BackgroundVideo>
-      <BlogSection></BlogSection>
-      <Testimonial></Testimonial>
-      <Gallery></Gallery>
       <InfoSection></InfoSection>
+      {/* <BestOfCollaborations></BestOfCollaborations> */}
+      {/* <BackgroundVideo></BackgroundVideo> */}
+      {/* <Testimonial></Testimonial> */}
+      <Gallery></Gallery>
+      <BlogSection></BlogSection>
     </div>
   );
 }

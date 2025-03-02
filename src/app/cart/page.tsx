@@ -1,68 +1,42 @@
 "use client";
 
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 type ProductType = {
-  [x: string]: ReactNode;
   id: number;
   name: string;
   base: string;
-  price: number;
+  price: number | string; // Handle string price initially
   salePrice?: number;
   rating: number;
   image: string;
   isOnSale: boolean;
   quantity?: number;
+  size?: string;
 };
-
-const products: ProductType[] = [
-  {
-    id: 1,
-    name: "Blouse 1",
-    base: "Women's Collection",
-    price: 280.0,
-    salePrice: 280.0,
-    rating: 4.5,
-    image:
-      "https://oval-square.com/cdn/shop/files/20389-7016_13_800x.jpg?v=1723646356",
-    isOnSale: true,
-  },
-  {
-    id: 2,
-    name: "Blouse 2",
-    base: "Summer Collection",
-    price: 305.0,
-    rating: 4,
-    image:
-      "https://oval-square.com/cdn/shop/files/20389-6009_13_1600x.jpg?v=1723646324",
-    isOnSale: false,
-  },
-  {
-    id: 3,
-    name: "Blouse 3",
-    base: "Summer Collection",
-    price: 305.0,
-    rating: 4,
-    image:
-      "https://oval-square.com/cdn/shop/files/20389-6009_13_1600x.jpg?v=1723646324",
-    isOnSale: false,
-  },
-  {
-    id: 4,
-    name: "Blouse ",
-    base: "Summer Collection",
-    price: 305.0,
-    rating: 4,
-    image:
-      "https://oval-square.com/cdn/shop/files/20389-6009_13_1600x.jpg?v=1723646324",
-    isOnSale: false,
-  },
-];
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<ProductType[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [shippingCost, setShippingCost] = useState<number>(120);
+
+  // Fetch products from public/products.json and ensure price is a number
+  useEffect(() => {
+    fetch("/products.json")
+      .then((res) => res.json())
+      .then((data) => {
+        const formattedProducts = data.map((product: ProductType) => ({
+          ...product,
+          price:
+            typeof product.price === "string"
+              ? parseFloat(product.price.replace(/[^0-9.]/g, ""))
+              : product.price,
+        }));
+        setProducts(formattedProducts);
+      })
+      .catch((error) => console.error("Error loading products:", error));
+  }, []);
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -76,19 +50,18 @@ const Cart = () => {
         );
         return {
           ...product,
-          quantity: storedItem.quantity,
-          size: storedItem.size,
+          quantity: storedItem?.quantity || 1,
+          size: storedItem?.size || "M",
         };
       });
+
     setCartItems(cartProducts);
-  }, []);
+  }, [products]);
 
   const handleQuantityChange = (id: number, newQuantity: number) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id
-          ? { ...item, quantity: (item.quantity || 1) + newQuantity }
-          : item
+        item.id === id ? { ...item, quantity: newQuantity } : item
       )
     );
   };
@@ -96,14 +69,11 @@ const Cart = () => {
   const handleRemove = (id: number) => {
     const updatedCart = cartItems.filter((item) => item.id !== id);
     setCartItems(updatedCart);
-    localStorage.setItem(
-      "cart",
-      JSON.stringify(updatedCart.map((item) => item.id))
-    );
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * (item.quantity || 1),
+    (acc, item) => acc + (item.price || 0) * (item.quantity || 1),
     0
   );
   const total = subtotal + shippingCost;
@@ -151,15 +121,14 @@ const Cart = () => {
                   min="1"
                   value={item.quantity || 1}
                   onChange={(e) =>
-                    handleQuantityChange(
-                      item.id,
-                      Number(e.target.value) - (item.quantity || 1)
-                    )
+                    handleQuantityChange(item.id, Number(e.target.value))
                   }
                   className="w-12 text-center border border-gray-300"
                 />
               </td>
-              <td className="p-3">{(item.quantity || 1) * item.price}৳</td>
+              <td className="p-3">
+                {(item.quantity || 1) * (item.price || 0)}৳
+              </td>
             </tr>
           ))}
         </tbody>
@@ -169,7 +138,7 @@ const Cart = () => {
         <h2 className="text-lg font-semibold mb-3">Cart totals</h2>
         <div className="flex justify-between border-b pb-2">
           <span>Subtotal</span>
-          <span>{subtotal}৳</span>
+          <span>{subtotal.toFixed(2)}৳</span>
         </div>
         <div className="mt-3">
           <p className="font-semibold">Shipping</p>
@@ -202,7 +171,7 @@ const Cart = () => {
         </div>
         <div className="flex justify-between mt-3 border-t pt-2">
           <span>Total</span>
-          <span>{total}৳</span>
+          <span>{total.toFixed(2)}৳</span>
         </div>
         <button
           className="w-full mt-4 bg-black text-white py-2 text-lg"
@@ -216,13 +185,13 @@ const Cart = () => {
                   price,
                   image,
                   size,
-                  quantity: quantity || 1, // Ensure quantity is at least 1,
+                  quantity: quantity || 1,
                 })
               ),
               shippingCost,
             };
             localStorage.setItem("checkoutData", JSON.stringify(checkoutData));
-            window.location.href = "/checkout"; // Navigate to the Checkout page
+            window.location.href = "/checkout";
           }}
         >
           Proceed to checkout
