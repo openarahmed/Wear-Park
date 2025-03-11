@@ -93,7 +93,7 @@ const Checkout = () => {
           {checkoutData.cartItems.length > 0 ? (
             checkoutData.cartItems.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="flex items-center gap-6 p-4 border-b"
               >
                 <Image

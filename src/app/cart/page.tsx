@@ -4,11 +4,10 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 type ProductType = {
-  id: number;
+  _id: string;
   name: string;
   base: string;
-  price: number | string; // Handle string price initially
-  salePrice?: number;
+  price: number;
   rating: number;
   image: string;
   isOnSale: boolean;
@@ -18,62 +17,48 @@ type ProductType = {
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<ProductType[]>([]);
-  const [products, setProducts] = useState<ProductType[]>([]);
   const [shippingCost, setShippingCost] = useState<number>(120);
 
-  // Fetch products from public/products.json and ensure price is a number
-  useEffect(() => {
-    fetch("/products.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const formattedProducts = data.map((product: ProductType) => ({
-          ...product,
-          price:
-            typeof product.price === "string"
-              ? parseFloat(product.price.replace(/[^0-9.]/g, ""))
-              : product.price,
-        }));
-        setProducts(formattedProducts);
-      })
-      .catch((error) => console.error("Error loading products:", error));
-  }, []);
-
+  // Load cart items from local storage
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const cartProducts = products
-      .filter((product) =>
-        storedCart.some((item: { id: number }) => item.id === product.id)
-      )
-      .map((product) => {
-        const storedItem = storedCart.find(
-          (item: { id: number }) => item.id === product.id
-        );
-        return {
-          ...product,
-          quantity: storedItem?.quantity || 1,
-          size: storedItem?.size || "M",
-        };
-      });
+
+    const cartProducts: ProductType[] = storedCart.map(
+      (item: Partial<ProductType>) => ({
+        _id: item._id || Math.random().toString(36).substr(2, 9),
+        name: item.name || "Unknown Product",
+        base: item.base || "Default Base",
+        price: item.price ?? 0,
+        rating: item.rating ?? 0,
+        image: item.image || "https://via.placeholder.com/64",
+        isOnSale: item.isOnSale ?? false,
+        quantity: item.quantity ?? 1,
+        size: item.size || "M",
+      })
+    );
 
     setCartItems(cartProducts);
-  }, [products]);
+  }, []);
 
-  const handleQuantityChange = (id: number, newQuantity: number) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
+  // Handle quantity change in cart
+  const handleQuantityChange = (id: string, newQuantity: number) => {
+    const updatedCart = cartItems.map((item) =>
+      item._id === id ? { ...item, quantity: newQuantity } : item
     );
-  };
-
-  const handleRemove = (id: number) => {
-    const updatedCart = cartItems.filter((item) => item.id !== id);
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
+  // Handle removing an item from the cart
+  const handleRemove = (id: string) => {
+    const updatedCart = cartItems.filter((item) => item._id !== id);
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  // Calculate subtotal and total
   const subtotal = cartItems.reduce(
-    (acc, item) => acc + (item.price || 0) * (item.quantity || 1),
+    (acc, item) => acc + item.price * (item.quantity ?? 1),
     0
   );
   const total = subtotal + shippingCost;
@@ -94,10 +79,10 @@ const Cart = () => {
         </thead>
         <tbody>
           {cartItems.map((item) => (
-            <tr key={item.id} className="border border-gray-300">
+            <tr key={item._id} className="border border-gray-300">
               <td className="p-3 text-center">
                 <button
-                  onClick={() => handleRemove(item.id)}
+                  onClick={() => handleRemove(item._id)}
                   className="text-red-500 text-lg"
                 >
                   ✖
@@ -119,16 +104,14 @@ const Cart = () => {
                 <input
                   type="number"
                   min="1"
-                  value={item.quantity || 1}
+                  value={item.quantity ?? 1}
                   onChange={(e) =>
-                    handleQuantityChange(item.id, Number(e.target.value))
+                    handleQuantityChange(item._id, Number(e.target.value))
                   }
                   className="w-12 text-center border border-gray-300"
                 />
               </td>
-              <td className="p-3">
-                {(item.quantity || 1) * (item.price || 0)}৳
-              </td>
+              <td className="p-3">{(item.quantity ?? 1) * item.price}৳</td>
             </tr>
           ))}
         </tbody>
@@ -178,14 +161,12 @@ const Cart = () => {
           onClick={() => {
             const checkoutData = {
               cartItems: cartItems.map(
-                ({ id, name, base, price, image, size, quantity }) => ({
-                  id,
+                ({ name, price, size, quantity, image }) => ({
                   name,
-                  base,
                   price,
-                  image,
                   size,
-                  quantity: quantity || 1,
+                  quantity,
+                  image,
                 })
               ),
               shippingCost,

@@ -5,7 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface Product {
-  id: number;
+  _id: string | string[] | undefined;
+  id: string; // Use string since the _id is a string
   name: string;
   base: string;
   price: string;
@@ -23,19 +24,27 @@ const ProductDetails = () => {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProduct = async () => {
       try {
-        const response = await fetch("/products.json");
-        const data: Product[] = await response.json();
-        if (id) {
-          const foundProduct = data.find((p) => p.id === Number(id));
+        const response = await fetch(
+          "https://server-wear-park.vercel.app/products"
+        );
+        const data = await response.json();
+
+        if (data.success && data.data && data.data.products) {
+          // Find the product by matching the _id from the API
+          const foundProduct = data.data.products.find(
+            (p: Product) => p._id === id
+          );
           setProduct(foundProduct || null);
+        } else {
+          console.error("Product data not found in the response");
         }
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching product:", error);
       }
     };
-    fetchProducts();
+    fetchProduct();
   }, [id]);
 
   const handleAddToCart = () => {
@@ -61,9 +70,7 @@ const ProductDetails = () => {
     if (product && selectedSize) {
       console.log("Product Price Before Processing:", product.price);
 
-      // Check if the price is valid
       const getPrice = (price: string | undefined) => {
-        // Sanitize the price string by removing non-numeric characters
         const sanitizedPrice = price?.replace(/[^\d.]/g, "");
         const numericPrice =
           sanitizedPrice && !isNaN(Number(sanitizedPrice))
@@ -90,7 +97,7 @@ const ProductDetails = () => {
             id: product.id,
             name: product.name,
             base: product.base,
-            price: price, // Now stored as a number
+            price: price,
             quantity: 1,
             size: selectedSize,
             image: product.image,

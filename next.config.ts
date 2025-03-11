@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
       "i5.walmartimages.com",
       "n-img1.junaroad.com",
       "media.gettyimages.com",
+      "via.placeholder.com",
     ],
   },
 };

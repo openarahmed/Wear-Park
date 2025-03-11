@@ -1,7 +1,8 @@
+// ShopByCategory.tsx
 import Image from "next/image";
 import Link from "next/link";
 
-const categories = [
+export const categories = [
   {
     name: "Jeans",
     items: 2,

@@ -8,48 +8,47 @@ import { FaEye, FaHeart, FaStar } from "react-icons/fa";
 import { FaRightLeft } from "react-icons/fa6";
 
 interface Product {
-  id: number;
+  _id: string;
   name: string;
   base?: string;
   price: string;
-  salePrice?: string;
   rating: number;
   image: string;
   isOnSale: boolean;
-  sizes?: string[];
-  description?: string[];
+  description?: string;
 }
 
 const TrendyCollection = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const router = useRouter();
 
-  // UseEffect to ensure the client-side fetching happens after mounting
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/products.json");
-        const data = await res.json();
-        setProducts(data);
+        const res = await fetch("https://server-wear-park.vercel.app/products");
+        const result = await res.json();
+
+        if (result.success && result.data.products) {
+          setProducts(result.data.products);
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
 
     fetchProducts();
-  }, []); // Empty dependency array ensures this runs once when the component mounts
+  }, []);
 
   const goToProductDetails = (product: Product) => {
     const query = new URLSearchParams({
-      id: product.id.toString(),
+      id: product._id,
       name: product.name,
       price: product.price,
       image: product.image,
-      sizes: JSON.stringify(product.sizes || ["L", "M", "XL"]),
-      description: JSON.stringify(product.description || []),
+      description: product.description || "No description",
     }).toString();
 
-    router.push(`/singleProduct/${product.id}?${query}`);
+    router.push(`/singleProduct/${product._id}?${query}`);
   };
 
   return (
@@ -70,11 +69,10 @@ const TrendyCollection = () => {
           </button>
         </div>
 
-        {/* Product Grid (Show only first 8 products) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.slice(0, 8).map((product) => (
             <div
-              key={product.id}
+              key={product._id}
               className="group relative p-4 bg-white rounded-md"
             >
               <div className="relative overflow-hidden">
@@ -90,7 +88,7 @@ const TrendyCollection = () => {
 
                 {product.isOnSale && (
                   <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded z-20">
-                    Sale -8%
+                    Sale
                   </span>
                 )}
 
@@ -126,9 +124,7 @@ const TrendyCollection = () => {
                   ))}
                 </div>
 
-                <p className="text-gray-500 text-sm mt-2">
-                  {product.isOnSale ? product.salePrice : product.price}
-                </p>
+                <p className="text-gray-500 text-sm mt-2">{product.price}</p>
               </div>
 
               <div className="absolute bottom-40 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
