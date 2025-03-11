@@ -2,7 +2,7 @@ import React from "react";
 
 const Manufacturing = () => {
   return (
-    <div className="bg-gray-50 py-16 px-4 md:px-12 flex flex-col md:flex-row items-center gap-12">
+    <div className="bg-gray-50 py-16 px-4 md:px-12 flex flex-col md:flex-row items-center gap-12 max-w-7xl mx-auto">
       {/* Left Side: How It Works */}
       <div className="w-full md:w-1/2">
         <h2 className="text-2xl md:text-4xl font-bold text-gray-800 text-center md:text-left leading-tight">

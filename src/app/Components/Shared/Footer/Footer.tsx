@@ -112,6 +112,24 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      <div>
+        <a
+          href="https://wa.me/+8801910882903"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open WhatsApp"
+        >
+          <div className="fixed bottom-[60px] md:bottom-[10px] right-2">
+            <button className="rounded-full hover:bg-white hover:text-black transition-all duration-200">
+              <img
+                className="md:w-14 w-9"
+                src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png"
+                alt="WhatsApp"
+              />
+            </button>
+          </div>
+        </a>
+      </div>
     </footer>
   );
 };
