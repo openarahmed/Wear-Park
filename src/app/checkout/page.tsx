@@ -3,6 +3,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import emailjs from "@emailjs/browser";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 type ProductType = {
   id: number;
@@ -23,22 +25,30 @@ const Checkout = () => {
     shippingCost: 120,
   });
 
+  const [formData, setFormData] = useState({
+    name: "",
+    address: "",
+    phone: "",
+  });
+
+  const [formStatus, setFormStatus] = useState({
+    loading: false,
+    success: false,
+    error: null,
+  });
+
   useEffect(() => {
     const storedData = localStorage.getItem("checkoutData");
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
-        console.log("Loaded Checkout Data:", parsedData);
-
         if (parsedData && Array.isArray(parsedData.cartItems)) {
           setCheckoutData({
-            cartItems: parsedData.cartItems.map(
-              (item: { price: any; quantity: any }) => ({
-                ...item,
-                price: Number(item.price) || 0, // Ensure price is a valid number
-                quantity: Number(item.quantity) || 1,
-              })
-            ),
+            cartItems: parsedData.cartItems.map((item) => ({
+              ...item,
+              price: Number(item.price) || 0,
+              quantity: Number(item.quantity) || 1,
+            })),
             shippingCost: Number(parsedData.shippingCost) || 120,
           });
         }
@@ -52,38 +62,121 @@ const Checkout = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-
   const total = subtotal + checkoutData.shippingCost;
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus({ loading: true, success: false, error: null });
+
+    emailjs
+      .sendForm(
+        "service_5notukm",
+        "template_ppz2a6u",
+        e.currentTarget,
+        "UANiDaV9CE5zcmzkX"
+      )
+      .then(
+        (result) => {
+          setFormStatus({ loading: false, success: true, error: null });
+
+          // Show SweetAlert success message
+          Swal.fire({
+            title: "Order Placed!",
+            text: "Your order has been successfully placed.",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+
+          // Clear input fields
+          setFormData({ name: "", address: "", phone: "" });
+
+          // Clear local storage
+          localStorage.removeItem("checkoutData");
+          setCheckoutData({ cartItems: [], shippingCost: 120 });
+        },
+        (error) => {
+          setFormStatus({ loading: false, success: false, error: error.text });
+
+          // Show SweetAlert error message
+          Swal.fire({
+            title: "Error!",
+            text: "There was an issue placing your order. Please try again.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
+      );
+  };
 
   return (
     <div className="p-10 grid grid-cols-1 md:grid-cols-2 gap-12 bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md">
         <h1 className="text-2xl font-semibold mb-6">Billing & Shipping</h1>
-        <form className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <label className="block">
             আপনার নাম *
             <input
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               placeholder="আপনার নাম লিখুন"
               className="w-full border rounded-lg p-3 mt-2"
+              required
             />
           </label>
           <label className="block">
             আপনার ঠিকানা *
             <input
               type="text"
+              name="address"
+              value={formData.address}
+              onChange={(e) =>
+                setFormData({ ...formData, address: e.target.value })
+              }
               placeholder="আপনার ঠিকানা লিখুন"
               className="w-full border rounded-lg p-3 mt-2"
+              required
             />
           </label>
           <label className="block">
             আপনার মোবাইল *
             <input
               type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
               placeholder="আপনার মোবাইল নাম্বার লিখুন"
               className="w-full border rounded-lg p-3 mt-2"
+              required
             />
           </label>
+
+          {/* Hidden input for order details */}
+          <input
+            type="hidden"
+            name="orderDetails"
+            value={checkoutData.cartItems
+              .map(
+                (item) =>
+                  `- ${item.name} (Size: ${item.size}, Qty: ${item.quantity}, Price: ${item.price}৳)`
+              )
+              .join("\n")}
+          />
+
+          {/* Hidden input for total price */}
+          <input type="hidden" name="totalPrice" value={total.toString()} />
+
+          <button
+            type="submit"
+            className="w-full bg-black text-white font-semibold py-3 rounded-lg mt-6"
+          >
+            {formStatus.loading ? "Placing Order..." : "Place Order"}
+          </button>
         </form>
       </div>
 
@@ -93,7 +186,7 @@ const Checkout = () => {
           {checkoutData.cartItems.length > 0 ? (
             checkoutData.cartItems.map((item) => (
               <div
-                key={item._id}
+                key={item.id}
                 className="flex items-center gap-6 p-4 border-b"
               >
                 <Image
@@ -115,7 +208,6 @@ const Checkout = () => {
             <p className="text-center text-gray-600">No items in checkout</p>
           )}
         </div>
-
         <div className="mt-6 border-t pt-4">
           <p className="flex justify-between font-semibold text-lg">
             Subtotal: <span>{subtotal}৳</span>
@@ -126,17 +218,7 @@ const Checkout = () => {
           <p className="flex justify-between font-bold text-xl mt-3">
             Total: <span>{total}৳</span>
           </p>
-          <div className="bg-blue-50 p-4 mt-10 rounded-md">
-            <p className="text-gray-700 font-medium">Cash on delivery</p>
-            <div className="bg-blue-100 p-3 rounded-md mt-2">
-              <p className="text-gray-700">Pay with cash upon delivery.</p>
-            </div>
-          </div>
         </div>
-
-        <button className="w-full bg-black text-white font-semibold py-3 rounded-lg mt-6">
-          Place Order
-        </button>
       </div>
     </div>
   );

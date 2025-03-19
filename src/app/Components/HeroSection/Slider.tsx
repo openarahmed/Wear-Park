@@ -78,7 +78,7 @@ const HeroSlider = () => {
           <div className="absolute inset-0 bg-black bg-opacity-60"></div>
 
           {/* Text content */}
-          <div className="absolute bottom-20 left-20 text-white z-20">
+          <div className="absolute bottom-20 left-5 md:left-20 text-white z-20">
             <h3 className="uppercase ">{slide.base}</h3>
             <h1 className="text-2xl md:text-4xl font-bold uppercase py-3 md:py-8">
               {slide.title}

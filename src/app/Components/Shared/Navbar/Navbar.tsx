@@ -47,7 +47,7 @@ const Navbar = () => {
             <FaShoppingCart className="text-3xl cursor-pointer" />
           </Link>
           {cartCount > 0 && (
-            <span className="absolute -top-2 right-[75px] bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+            <span className="absolute -top-2 right-[1px] md:right-[75px] bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
               {cartCount}
             </span>
           )}

@@ -1,92 +1,139 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
+import Swal from "sweetalert2";
 
 const Manufacturing = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    quantity: "",
+    details: "",
+  });
+
+  const [formStatus, setFormStatus] = useState({
+    loading: false,
+    success: false,
+    error: null,
+  });
+
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setFormStatus({ loading: true, success: false, error: null });
+
+    emailjs
+      .send(
+        "service_5notukm",
+        "template_ppz2a6u",
+        formData,
+        "UANiDaV9CE5zcmzkX"
+      )
+      .then(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        (result) => {
+          setFormStatus({ loading: false, success: true, error: null });
+          Swal.fire({
+            title: "Request Submitted!",
+            text: "We will get back to you soon.",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+          setFormData({ name: "", email: "", quantity: "", details: "" });
+        },
+        (error) => {
+          setFormStatus({ loading: false, success: false, error: error.text });
+          Swal.fire({
+            title: "Error!",
+            text: "There was an issue submitting your request. Please try again.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
+      );
+  };
+
   return (
     <div className="bg-gray-50 py-16 px-4 md:px-12 flex flex-col md:flex-row items-center gap-12 max-w-7xl mx-auto">
-      {/* Left Side: How It Works */}
       <div className="w-full md:w-1/2">
-        <h2 className="text-2xl md:text-4xl font-bold text-gray-800 text-center md:text-left leading-tight">
+        <h2 className="text-2xl md:text-4xl font-bold text-gray-800">
           Need Custom Clothes?
         </h2>
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-800 text-center md:text-left mt-2">
-          Fabrics that Match Your Personality
-        </h2>
-        <p className="text-gray-600 mt-4 text-sm md:text-base text-center md:text-left">
+        <p className="text-gray-600 mt-4">
           Order 500+ custom T-shirts with high-quality production and fast
           delivery.
         </p>
-
         <div className="grid grid-cols-2 gap-6 mt-8">
           {[
-            {
-              step: "1",
-              title: "Submit Requirements",
-              desc: "Choose product type, quantity, and design.",
-            },
-            {
-              step: "2",
-              title: "Get a Quote",
-              desc: "Receive a price estimate within 24 hours.",
-            },
-            {
-              step: "3",
-              title: "Production Begins",
-              desc: "We start manufacturing after confirmation.",
-            },
-            {
-              step: "4",
-              title: "Delivery & Payment",
-              desc: "Receive the products at your doorstep.",
-            },
-          ].map((item, index) => (
+            "Submit Requirements",
+            "Get a Quote",
+            "Production Begins",
+            "Delivery & Payment",
+          ].map((title, index) => (
             <div
               key={index}
-              className="bg-white p-6 shadow-lg rounded-lg border border-gray-200 text-center"
+              className="bg-white p-6 shadow-lg rounded-lg border text-center"
             >
-              <h3 className="text-lg md:text-xl font-semibold text-blue-600">
-                {item.step}
+              <h3 className="text-lg font-semibold text-blue-600">
+                {index + 1}
               </h3>
-              <h4 className="text-sm md:text-lg font-medium mt-2 text-gray-800">
-                {item.title}
+              <h4 className="text-lg font-medium mt-2 text-gray-800">
+                {title}
               </h4>
-              <p className="text-gray-500 mt-2 text-xs md:text-sm">
-                {item.desc}
-              </p>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Right Side: Inquiry Form */}
-      <div className="w-full md:w-1/2 bg-white p-6 md:p-8 shadow-lg rounded-lg border border-gray-200">
+      <div className="w-full md:w-1/2 bg-white p-6 md:p-8 shadow-lg rounded-lg border">
         <h3 className="text-lg md:text-2xl font-semibold text-gray-800 mb-6 text-center">
           Request a Quote
         </h3>
-        <form className="grid gap-6">
+        <form onSubmit={handleSubmit} className="grid gap-6">
           <input
             type="text"
+            name="name"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             placeholder="Your Name"
-            className="border p-3 rounded w-full text-sm md:text-base focus:ring-2 focus:ring-blue-500 outline-none"
+            className="border p-3 rounded w-full"
+            required
           />
           <input
             type="email"
+            name="email"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
             placeholder="Your Email"
-            className="border p-3 rounded w-full text-sm md:text-base focus:ring-2 focus:ring-blue-500 outline-none"
+            className="border p-3 rounded w-full"
+            required
           />
           <input
             type="number"
+            name="quantity"
+            value={formData.quantity}
+            onChange={(e) =>
+              setFormData({ ...formData, quantity: e.target.value })
+            }
             placeholder="Quantity (500+)"
-            className="border p-3 rounded w-full text-sm md:text-base focus:ring-2 focus:ring-blue-500 outline-none"
+            className="border p-3 rounded w-full"
+            required
           />
           <textarea
+            name="details"
+            value={formData.details}
+            onChange={(e) =>
+              setFormData({ ...formData, details: e.target.value })
+            }
             placeholder="Additional Details"
-            className="border p-3 rounded w-full h-20 text-sm md:text-base focus:ring-2 focus:ring-blue-500 outline-none"
+            className="border p-3 rounded w-full h-20"
           ></textarea>
           <button
             type="submit"
-            className="bg-black text-white py-3 rounded-lg w-full font-medium shadow-lg  transition"
+            className="bg-black text-white py-3 rounded-lg w-full"
           >
-            Submit
+            {formStatus.loading ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>

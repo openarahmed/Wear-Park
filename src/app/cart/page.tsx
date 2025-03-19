@@ -64,60 +64,71 @@ const Cart = () => {
   const total = subtotal + shippingCost;
 
   return (
-    <div className="flex justify-between px-10 py-5">
-      <table className="w-3/4 border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-200 text-left">
-            <th className="p-3 border border-gray-300">Remove</th>
-            <th className="p-3 border border-gray-300">Thumbnail</th>
-            <th className="p-3 border border-gray-300">Product Title</th>
-            <th className="p-3 border border-gray-300">Size</th>
-            <th className="p-3 border border-gray-300">Price</th>
-            <th className="p-3 border border-gray-300">Quantity</th>
-            <th className="p-3 border border-gray-300">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cartItems.map((item) => (
-            <tr key={item._id} className="border border-gray-300">
-              <td className="p-3 text-center">
-                <button
-                  onClick={() => handleRemove(item._id)}
-                  className="text-red-500 text-lg"
-                >
-                  ✖
-                </button>
-              </td>
-              <td className="p-3">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  width={64}
-                  height={64}
-                  className="object-cover"
-                />
-              </td>
-              <td className="p-3">{item.name}</td>
-              <td className="p-3">{item.size}</td>
-              <td className="p-3">{item.price}৳</td>
-              <td className="p-3">
-                <input
-                  type="number"
-                  min="1"
-                  value={item.quantity ?? 1}
-                  onChange={(e) =>
-                    handleQuantityChange(item._id, Number(e.target.value))
-                  }
-                  className="w-12 text-center border border-gray-300"
-                />
-              </td>
-              <td className="p-3">{(item.quantity ?? 1) * item.price}৳</td>
+    <div className="flex flex-col lg:flex-row justify-between px-5 lg:px-10 py-5">
+      {/* Responsive Table Wrapper */}
+      <div className="w-full lg:w-3/4 overflow-x-auto">
+        <table className="w-full border-collapse border border-gray-300 mb-5 lg:mb-0 min-w-[600px]">
+          <thead>
+            <tr className="bg-gray-200 text-left text-sm md:text-base">
+              <th className="p-2 md:p-3 border border-gray-300">Remove</th>
+              <th className="p-2 md:p-3 border border-gray-300">Thumbnail</th>
+              <th className="p-2 md:p-3 border border-gray-300">
+                Product Title
+              </th>
+              <th className="p-2 md:p-3 border border-gray-300">Size</th>
+              <th className="p-2 md:p-3 border border-gray-300">Price</th>
+              <th className="p-2 md:p-3 border border-gray-300">Quantity</th>
+              <th className="p-2 md:p-3 border border-gray-300">Total</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {cartItems.map((item) => (
+              <tr
+                key={item._id}
+                className="border border-gray-300 text-sm md:text-base"
+              >
+                <td className="p-2 md:p-3 text-center">
+                  <button
+                    onClick={() => handleRemove(item._id)}
+                    className="text-red-500 text-lg"
+                  >
+                    ✖
+                  </button>
+                </td>
+                <td className="p-2 md:p-3">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={50}
+                    height={50}
+                    className="object-cover"
+                  />
+                </td>
+                <td className="p-2 md:p-3">{item.name}</td>
+                <td className="p-2 md:p-3">{item.size}</td>
+                <td className="p-2 md:p-3">{item.price}৳</td>
+                <td className="p-2 md:p-3">
+                  <input
+                    type="number"
+                    min="1"
+                    value={item.quantity ?? 1}
+                    onChange={(e) =>
+                      handleQuantityChange(item._id, Number(e.target.value))
+                    }
+                    className="w-12 text-center border border-gray-300"
+                  />
+                </td>
+                <td className="p-2 md:p-3">
+                  {(item.quantity ?? 1) * item.price}৳
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      <div className="w-1/4 p-5 border border-gray-300 bg-gray-100">
+      {/* Cart Totals */}
+      <div className="w-full lg:w-1/4 p-5 border border-gray-300 bg-gray-100">
         <h2 className="text-lg font-semibold mb-3">Cart totals</h2>
         <div className="flex justify-between border-b pb-2">
           <span>Subtotal</span>
