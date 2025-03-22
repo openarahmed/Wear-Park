@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
       "n-img1.junaroad.com",
       "media.gettyimages.com",
       "via.placeholder.com",
+      "upload.wikimedia.org",
     ],
   },
 };
