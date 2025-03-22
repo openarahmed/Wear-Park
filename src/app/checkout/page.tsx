@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -44,11 +45,13 @@ const Checkout = () => {
         const parsedData = JSON.parse(storedData);
         if (parsedData && Array.isArray(parsedData.cartItems)) {
           setCheckoutData({
-            cartItems: parsedData.cartItems.map((item) => ({
-              ...item,
-              price: Number(item.price) || 0,
-              quantity: Number(item.quantity) || 1,
-            })),
+            cartItems: parsedData.cartItems.map(
+              (item: { price: any; quantity: any }) => ({
+                ...item,
+                price: Number(item.price) || 0,
+                quantity: Number(item.quantity) || 1,
+              })
+            ),
             shippingCost: Number(parsedData.shippingCost) || 120,
           });
         }
@@ -70,10 +73,10 @@ const Checkout = () => {
 
     emailjs
       .sendForm(
-        "service_5notukm",
-        "template_ppz2a6u",
+        "service_lo56j5m",
+        "template_1buhjgc",
         e.currentTarget,
-        "UANiDaV9CE5zcmzkX"
+        "97jtqzztSIEkmp02_"
       )
       .then(
         (result) => {

@@ -24,10 +24,10 @@ const Manufacturing = () => {
 
     emailjs
       .send(
-        "service_5notukm",
-        "template_ppz2a6u",
+        "service_be623kj",
+        "template_5tampbu",
         formData,
-        "UANiDaV9CE5zcmzkX"
+        "97jtqzztSIEkmp02_"
       )
       .then(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
