@@ -17,10 +17,10 @@ export default function Home() {
     <div className="">
       <HeroSlider></HeroSlider>
       <ShopByCategory></ShopByCategory>
-      <Manufacturing></Manufacturing>
       {/* <FeatureSection></FeatureSection> */}
       <Carousel></Carousel>
       <TrendyCollection></TrendyCollection>
+      <Manufacturing></Manufacturing>
       <TheBrand></TheBrand>
       <InfoSection></InfoSection>
       {/* <BestOfCollaborations></BestOfCollaborations> */}

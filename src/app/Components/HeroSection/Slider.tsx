@@ -8,7 +8,7 @@ const slides = [
     id: 1,
     base: "Fall 2025 Winter Campaign",
     image:
-      "https://static8.depositphotos.com/1011643/1046/i/950/depositphotos_10469952-stock-photo-womens-clothing-store.jpg",
+      "https://i.pinimg.com/736x/8c/94/21/8c942103add9ed0d2b1481fafc113b04.jpg",
     title: "The Stage is Yours",
     description: "This is the first slide description.",
     button: "Discover the Campaign",
@@ -18,7 +18,7 @@ const slides = [
     base: "10% Essential Bundles",
 
     image:
-      "https://media.burford.co.uk/images/SNY04089.jpg_edit.width-640_ln7jm6QxYVkHFHaT.jpg",
+      "https://i.pinimg.com/736x/ad/d8/2f/add82ff8c38470f8889b2edbd2d82f48.jpg",
     title: "New In: Bundles",
     description: "This is the second slide description.",
     button: "Shop For Her",
@@ -28,7 +28,7 @@ const slides = [
     base: "2025 Summer Campaign",
 
     image:
-      "https://img.freepik.com/premium-photo/fashionable-shop-presents-clothes-hangers-embodying-modern-boutique-aesthetics_896558-6197.jpg",
+      "https://i.pinimg.com/736x/29/56/23/295623eb31d15769afbaf0232343131a.jpg",
     title: "The Stage is Yours",
     description: "This is the third slide description.",
     button: "Show Lastest arrival",
@@ -71,6 +71,7 @@ const HeroSlider = () => {
           style={{
             backgroundImage: `url(${slide.image})`,
             backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
           }}
         >

@@ -48,7 +48,7 @@ const Gallery = () => {
   ];
 
   return (
-    <main className="py-5 md:py-16 max-w-7xl mx-auto">
+    <main className="py-5 md:py-16 max-w-7xl mx-auto hidden">
       <div className="text-center uppercase md:pb-10">
         <h1 className="text-gray-300 pb-5">Follow us on</h1>
         <h1 className="text-3xl md:text-5xl font-bold">#instagram</h1>

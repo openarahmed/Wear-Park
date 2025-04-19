@@ -1,12 +1,7 @@
 import Link from "next/link";
 import Image from "next/image"; // Import the Image component
 import React from "react";
-import {
-  FaFacebookF,
-  FaPinterestP,
-  FaInstagram,
-  FaTiktok,
-} from "react-icons/fa";
+import { FaFacebookF } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -32,10 +27,9 @@ const Footer = () => {
             </button>
           </div>
           <div className="flex space-x-4 text-lg">
-            <FaFacebookF className="cursor-pointer hover:text-gray-700" />
-            <FaPinterestP className="cursor-pointer hover:text-gray-700" />
-            <FaInstagram className="cursor-pointer hover:text-gray-700" />
-            <FaTiktok className="cursor-pointer hover:text-gray-700" />
+            <Link href={`https://www.facebook.com/Wearparkbd`}>
+              <FaFacebookF className="cursor-pointer hover:text-gray-700" />
+            </Link>
           </div>
         </div>
 
@@ -66,10 +60,11 @@ const Footer = () => {
         {/* Contact Section */}
         <div>
           <h3 className="text-lg font-bold mb-4">CONTACT US</h3>
-          <p className="text-sm mb-2">Email: clientcare@bunch.com</p>
-          <p className="text-sm mb-2">Phone: 1.888.838.3022</p>
-          <p className="text-sm">
-            Hours: Monday – Thursday: 9AM – 7PM ET, Friday: 9AM – 2PM ET
+          <p className="text-sm mb-2">Email: wearpark98@gmail.com</p>
+          <p className="text-sm mb-2">Phone: 01700613535</p>
+          <p className="text-sm mb-2">
+            Address: Corporate office- Mirpur tower, Lifted-06. Mirpur 01.
+            Dhaka.
           </p>
         </div>
       </div>
@@ -79,10 +74,9 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row justify-between items-center space-y-6 lg:space-y-0">
           {/* Copyright */}
           <div className="text-sm text-center lg:text-left">
-            © 2025, Qx Aarau (Password: 1). All rights reserved.
+            © 2025, Wear Park All rights reserved.
           </div>
-
-          {/* Language and Currency */}
+          {/* Language and Currency
           <div className="flex space-x-4">
             <select className="border border-black px-4 py-2 text-sm">
               <option>Australia (AUD $)</option>
@@ -94,8 +88,7 @@ const Footer = () => {
               <option>French</option>
               <option>German</option>
             </select>
-          </div>
-
+          </div> */}
           {/* Payment Icons */}
           <div className="flex space-x-4 text-2xl">
             <h1 className="text-sm">

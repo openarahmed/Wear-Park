@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FaShoppingCart, FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/app/context/AuthContext";
+import Image from "next/image";
 
 const Navbar = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -37,7 +38,23 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <Link href="/">
-            <span className="text-3xl font-bold">Wear Park</span>
+            <div className="relative w-40 h-12">
+              {" "}
+              {/* Adjust width and height as needed */}
+              <Link href="/">
+                <div className="relative w-52 h-16">
+                  {" "}
+                  {/* Increased from w-40 h-12 */}
+                  <Image
+                    src="https://i.postimg.cc/pVZf3qSN/wear-park-logo.jpg"
+                    alt="Wear Park Logo"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </Link>
+            </div>
           </Link>
         </div>
 

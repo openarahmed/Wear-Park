@@ -4,38 +4,38 @@ import Link from "next/link";
 
 export const categories = [
   {
-    name: "Jeans",
-    items: 2,
+    name: "T-Shirt",
+    items: 10,
     image:
-      "https://www.gerberchildrenswear.com/cdn/shop/files/Gerber_1-pack-baby-neutral-blue-straight-fit-jeans-evyr-d_image_1_1800x1800.jpg?v=1721762942",
+      "https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/T26252s4.jpg?im=Resize,width=750", // Replace with actual image URL
   },
   {
-    name: "Coats",
-    items: 1,
-    image: "https://pngimg.com/d/coat_PNG28.png",
-  },
-  {
-    name: "Tees",
-    items: 1,
-    image:
-      "https://www.byrobertjames.com/cdn/shop/products/NAVYSLUBMAXFRONT_ea257a48-a62b-4f84-8624-ae156489cdff.jpg?v=1615489503",
-  },
-  {
-    name: "Knits",
-    items: 7,
-    image: "https://i.ebayimg.com/images/g/e~8AAOSwM8hmHj9q/s-l400.jpg",
-  },
-  {
-    name: "Blazers",
-    items: 2,
-    image:
-      "https://5.imimg.com/data5/RP/GQ/MY-38642310/men-s-party-wear-blazer.jpg",
-  },
-  {
-    name: "Blouses",
+    name: "Drop Sholder",
     items: 5,
+    image: "https://axarobd.com/wp-content/uploads/2024/09/DSCF1915.webp", // Replace with actual image URL
+  },
+  {
+    name: "trouser",
+    items: 8,
     image:
-      "https://png.pngtree.com/png-vector/20240719/ourmid/pngtree-d-pin-by-ravitha-balki-on-work-blouse-embroidery-neck-designs-png-image_13146525.png",
+      "https://artisanclick.com/wp-content/uploads/2023/12/MG_2979-scaled.jpg", // Replace with actual image URL
+  },
+  {
+    name: "Underwear",
+    items: 15,
+    image:
+      "https://www.pakaapparel.com/cdn/shop/files/Mens_Underwear_Blue_1_1500x.webp?v=1743024282", // Replace with actual image URL
+  },
+  {
+    name: "Pollo-Shirt",
+    items: 7,
+    image: "https://beagiver.com.ph/wp-content/uploads/2019/07/polo_collar.jpg", // Replace with actual image URL
+  },
+  {
+    name: "Pants",
+    items: 12,
+    image:
+      "https://hunterselement.com.au/cdn/shop/files/FieldPants-Main-MajorBrown-RGB_f8e1017e-f2c1-4ede-9c6b-467987eaa439.jpg?v=1707950472", // Replace with actual image URL
   },
 ];
 
@@ -47,11 +47,14 @@ const ShopByCategory = () => {
           SHOP BY CATEGORY
         </h2>
         <p className="text-gray-600 mb-8">
-          Discover the latest ready-to-wear dresses.
+          Discover our wide range of clothing categories.
         </p>
         <div className="flex justify-between items-center gap-6">
           {categories.map((category, index) => (
-            <Link key={index} href={`/${category.name.toLowerCase()}`}>
+            <Link
+              key={index}
+              href={`/${category.name.toLowerCase().replace(/\s+/g, "-")}`}
+            >
               <div className="text-center group">
                 <div className="overflow-hidden">
                   <Image

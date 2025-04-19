@@ -6,14 +6,9 @@ const TheBrand = () => {
       <div className="md:p-20 p-5">
         <h3 className="text-xl">The Brand</h3>
         <h1 className="max-w-[770px] mx-auto mt-5">
-          Bunch is a mix of contemporary fashion and timeless silhouettes. it’s
-          for people who dare to stand out and be creative with their own unique
-          expression yet also appreciate good basics and classic suiting. the
-          concept is to challenge the expected by creating contrasts in design
-          and styling, to inspire an individual look, no matter who you are.
-          it’s a brand that hopes to give everyone the confidence to wear
-          exactly whatever they feel like. normality doesn’t exist and
-          imperfection is our perfection.
+          Wear Park One of The Trusted Knitwear And Woven clothing manufacturer
+          Company in Bangladesh.Our clothes are characterised by the highest
+          quality of manufacture and affordable prices.
         </h1>
       </div>
     </div>
