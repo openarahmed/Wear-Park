@@ -15,6 +15,7 @@ interface Product {
   image: string;
   isOnSale: boolean;
   details: string;
+  description: string;
 }
 
 const ProductDetails = () => {
@@ -181,6 +182,7 @@ const ProductDetails = () => {
               Add to Cart
             </button>
           </div>
+          <h1 className="mt-10">{product.description}</h1>
         </div>
       </div>
     </div>

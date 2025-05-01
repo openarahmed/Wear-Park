@@ -5,7 +5,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import emailjs from "@emailjs/browser";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
 
 type ProductType = {
   id: number;
@@ -81,26 +81,18 @@ const Checkout = () => {
       .then(
         (result) => {
           setFormStatus({ loading: false, success: true, error: null });
-
-          // Show SweetAlert success message
           Swal.fire({
             title: "Order Placed!",
             text: "Your order has been successfully placed.",
             icon: "success",
             confirmButtonText: "OK",
           });
-
-          // Clear input fields
           setFormData({ name: "", address: "", phone: "" });
-
-          // Clear local storage
           localStorage.removeItem("checkoutData");
           setCheckoutData({ cartItems: [], shippingCost: 120 });
         },
         (error) => {
           setFormStatus({ loading: false, success: false, error: error.text });
-
-          // Show SweetAlert error message
           Swal.fire({
             title: "Error!",
             text: "There was an issue placing your order. Please try again.",
@@ -159,7 +151,39 @@ const Checkout = () => {
             />
           </label>
 
-          {/* Hidden input for order details */}
+          {/* Shipping Location Radio Buttons */}
+          <div className="block">
+            <p className="font-medium mb-2">Shipping Location *</p>
+            <label className="flex items-center gap-2 mb-2">
+              <input
+                type="radio"
+                name="shippingLocation"
+                checked={checkoutData.shippingCost === 80}
+                onChange={() => {
+                  setCheckoutData((prev) => ({
+                    ...prev,
+                    shippingCost: 80,
+                  }));
+                }}
+              />
+              <span>ঢাকার ভিতরে: (80৳)</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="shippingLocation"
+                checked={checkoutData.shippingCost === 120}
+                onChange={() => {
+                  setCheckoutData((prev) => ({
+                    ...prev,
+                    shippingCost: 120,
+                  }));
+                }}
+              />
+              <span>ঢাকার বাইরে: (120৳)</span>
+            </label>
+          </div>
+
           <input
             type="hidden"
             name="orderDetails"
@@ -170,8 +194,6 @@ const Checkout = () => {
               )
               .join("\n")}
           />
-
-          {/* Hidden input for total price */}
           <input type="hidden" name="totalPrice" value={total.toString()} />
 
           <button
@@ -183,6 +205,7 @@ const Checkout = () => {
         </form>
       </div>
 
+      {/* Order Summary Section (Remains Unchanged) */}
       <div className="bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold mb-6">Your Order</h2>
         <div className="space-y-5">
